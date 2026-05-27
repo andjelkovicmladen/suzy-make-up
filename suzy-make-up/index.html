@@ -1,0 +1,1837 @@
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="color-scheme" content="light">
+    <meta name="theme-color" content="#ffffff">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="format-detection" content="telephone=yes">
+    <title>Suzy_make_up — Profesionalno šminkanje i edukacije</title>
+    <meta name="description" content="Profesionalno šminkanje za mladenke, posebne prilike i edukacije. Suzy Make-up Academy — od osnova do naprednih tehnika.">
+    
+    <!-- Open Graph / Social sharing -->
+    <meta property="og:title" content="Suzy_make_up — Profesionalno šminkanje i edukacije">
+    <meta property="og:description" content="Lepota koja vas podseti zašto ste oduvek voleli sebe. Profesionalno šminkanje za mladenke i edukacije u Paraćinu.">
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="sr_RS">
+    
+    <!-- Apple touch icon (zameni sa pravim icon-om kasnije) -->
+    <link rel="apple-touch-icon" href="./images/suzy-logo.png">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <style>
+        /* ============================================
+           DESIGN TOKENS — Centralizovane vrednosti
+           ============================================ */
+        :root {
+            color-scheme: light;        /* SPREČAVA iOS auto-dark mode inverzju */
+            
+            --color-bg: #ffffff;
+            --color-text: #1a1a1a;
+            --color-text-soft: #4a4a4a;
+            --color-text-muted: #8a8a8a;
+            --color-line: #e8e6e1;
+            --color-gold: #D4AF37;
+            --color-gold-dark: #b8941f;
+            --color-gold-soft: #f5efdc;
+            --color-section: #fafaf8;
+
+            --font-display: 'Playfair Display', Georgia, serif;
+            --font-body: 'Montserrat', -apple-system, sans-serif;
+
+            --container: 1280px;
+            --gutter: clamp(1.5rem, 4vw, 4rem);
+
+            --transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* ============================================
+           RESET & BASE
+           ============================================ */
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            -webkit-text-size-adjust: 100%;     /* iOS: spreči auto-zoom na orijentacionu promenu */
+            text-size-adjust: 100%;
+            overflow-x: hidden;                 /* SPREČAVA HORIZONTALNI SCROLL */
+        }
+
+        body {
+            font-family: var(--font-body);
+            font-weight: 400;
+            font-size: 16px;
+            line-height: 1.7;
+            color: var(--color-text);
+            background: var(--color-bg);
+            overflow-x: hidden;                 /* Backup zaštita */
+            -webkit-tap-highlight-color: rgba(212, 175, 55, 0.15);  /* Zlatan tap highlight umesto plavog default-a */
+            -webkit-overflow-scrolling: touch;  /* iOS smooth momentum scroll */
+        }
+
+        /* iOS: spreči zoom na input fokus (16px minimum) */
+        input, textarea, select, button {
+            font-size: 16px;
+        }
+
+        /* Touch targets - minimum 44x44 za accessibility */
+        a, button {
+            touch-action: manipulation;         /* Brže reagovanje na tap (300ms delay fix) */
+        }
+
+        img {
+            display: block;
+            max-width: 100%;
+            height: auto;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+            transition: color var(--transition);
+        }
+
+        h1, h2, h3, h4 {
+            font-family: var(--font-display);
+            font-weight: 500;
+            line-height: 1.15;
+            letter-spacing: -0.02em;
+        }
+
+        .container {
+            max-width: var(--container);
+            margin: 0 auto;
+            padding: 0 var(--gutter);
+        }
+
+        /* ============================================
+           NAVIGATION
+           ============================================ */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid transparent;
+            transition: border-color var(--transition);
+        }
+
+        .nav.scrolled {
+            border-bottom-color: var(--color-line);
+        }
+
+        .nav__inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 1.5rem;
+            padding-bottom: 1.5rem;
+        }
+
+        .nav__logo {
+            display: inline-flex;
+            align-items: center;
+            height: 52px;
+            transition: opacity var(--transition);
+        }
+
+        .nav__logo:hover {
+            opacity: 0.75;
+        }
+
+        .nav__logo img {
+            height: 100%;
+            width: auto;
+            display: block;
+        }
+
+        .nav__menu {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+        }
+
+        .nav__menu a {
+            font-size: 0.78rem;
+            font-weight: 500;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            position: relative;
+            padding: 0.5rem 0;
+        }
+
+        .nav__menu a::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 0;
+            height: 1px;
+            background: var(--color-gold);
+            transition: width var(--transition);
+        }
+
+        .nav__menu a:hover::after {
+            width: 100%;
+        }
+
+        .nav__cta {
+            color: var(--color-gold);
+            font-size: 0.78rem;
+            font-weight: 600;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+        }
+
+        /* Mobile-only CTA u dropdown meniju - hidden na desktopu */
+        .nav__menu-cta-mobile {
+            display: none;
+        }
+
+        /* Hamburger dugme - hidden po default-u na desktopu */
+        .nav__toggle {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0.5rem;
+            width: 44px;
+            height: 44px;
+            flex-direction: column;
+            justify-content: center;
+            gap: 5px;
+            align-items: center;
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .nav__toggle span {
+            display: block;
+            width: 24px;
+            height: 1.5px;
+            background: var(--color-text);
+            transition: transform 0.3s ease, opacity 0.2s ease;
+            border-radius: 1px;
+        }
+
+        /* Hamburger → X transformacija kada je menu otvoren */
+        .nav__toggle.is-open span:nth-child(1) {
+            transform: rotate(45deg) translate(4px, 5px);
+        }
+        .nav__toggle.is-open span:nth-child(2) {
+            opacity: 0;
+        }
+        .nav__toggle.is-open span:nth-child(3) {
+            transform: rotate(-45deg) translate(4px, -5px);
+        }
+
+        /* ============================================
+           HERO SECTION
+           ============================================ */
+        .hero {
+            padding: 10rem 0 6rem;
+            position: relative;
+        }
+
+        .hero__grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: clamp(2rem, 5vw, 5rem);
+            align-items: center;
+        }
+
+        .hero__visual {
+            position: relative;
+        }
+
+        /* Zlatni okvir-akcenat iza glavne slike (luxury detail) */
+        .hero__visual::before {
+            content: '';
+            position: absolute;
+            top: -1rem;
+            left: -1rem;
+            width: 30%;
+            height: 30%;
+            border-top: 1px solid var(--color-gold);
+            border-left: 1px solid var(--color-gold);
+            z-index: -1;
+        }
+
+        .hero__visual::after {
+            content: '';
+            position: absolute;
+            bottom: -1rem;
+            right: -1rem;
+            width: 30%;
+            height: 30%;
+            border-bottom: 1px solid var(--color-gold);
+            border-right: 1px solid var(--color-gold);
+            z-index: -1;
+        }
+
+        .hero__image-main {
+            aspect-ratio: 2 / 3;
+            background: var(--color-section);
+            overflow: hidden;
+            border: 1px solid var(--color-line);
+            position: relative;
+        }
+
+        .hero__image-main img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center 30%;
+            transition: transform 1.2s ease;
+        }
+
+        .hero__image-main:hover img {
+            transform: scale(1.03);
+        }
+
+        /* Mala labela u uglu slike (luxury editorial touch) */
+        .hero__image-label {
+            position: absolute;
+            top: 1.25rem;
+            left: 1.25rem;
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(8px);
+            padding: 0.6rem 1rem;
+            font-size: 0.65rem;
+            font-weight: 500;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            color: var(--color-text);
+            border-left: 2px solid var(--color-gold);
+        }
+
+        .hero__content {
+            padding-left: 2rem;
+        }
+
+        .hero__eyebrow {
+            font-size: 0.75rem;
+            font-weight: 500;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--color-gold);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .hero__eyebrow::before {
+            content: '';
+            width: 2.5rem;
+            height: 1px;
+            background: var(--color-gold);
+        }
+
+        .hero__title {
+            font-size: clamp(3rem, 7vw, 5.5rem);
+            font-weight: 400;
+            font-style: italic;
+            margin-bottom: 1.5rem;
+            line-height: 1;
+        }
+
+        .hero__subtitle {
+            font-size: 1.05rem;
+            color: var(--color-text-soft);
+            margin-bottom: 3rem;
+            max-width: 380px;
+            line-height: 1.7;
+        }
+
+        .hero__actions {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        /* ============================================
+           BUTTONS
+           ============================================ */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1.1rem 2.25rem;
+            font-family: var(--font-body);
+            font-size: 0.78rem;
+            font-weight: 600;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            cursor: pointer;
+            border: 1px solid transparent;
+            transition: all var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn--gold {
+            background: var(--color-gold);
+            color: var(--color-bg);
+        }
+
+        .btn--gold:hover {
+            background: var(--color-gold-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.25);
+        }
+
+        .btn--outline {
+            background: transparent;
+            color: var(--color-text);
+            border-color: var(--color-text);
+        }
+
+        .btn--outline:hover {
+            background: var(--color-text);
+            color: var(--color-bg);
+        }
+
+        .btn__icon-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 44px;
+            height: 44px;
+            border: 1px solid var(--color-line);
+            border-radius: 50%;
+            color: var(--color-text);
+            transition: all var(--transition);
+        }
+
+        .btn__icon-link:hover {
+            border-color: var(--color-gold);
+            color: var(--color-gold);
+            transform: translateY(-2px);
+        }
+
+        /* ============================================
+           SECTION HEADER
+           ============================================ */
+        .section {
+            padding: 8rem 0;
+        }
+
+        .section--alt {
+            background: var(--color-section);
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 5rem;
+        }
+
+        .section-header__eyebrow {
+            font-size: 0.72rem;
+            font-weight: 500;
+            letter-spacing: 0.35em;
+            text-transform: uppercase;
+            color: var(--color-gold);
+            margin-bottom: 1.5rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .section-header__eyebrow::before,
+        .section-header__eyebrow::after {
+            content: '';
+            width: 2rem;
+            height: 1px;
+            background: var(--color-gold);
+        }
+
+        .section-header__title {
+            font-size: clamp(2.25rem, 4.5vw, 3.5rem);
+            font-style: italic;
+            font-weight: 400;
+        }
+
+        .section-header__subtitle {
+            font-size: 1rem;
+            color: var(--color-text-soft);
+            margin-top: 1.25rem;
+            max-width: 540px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* ============================================
+           SERVICES
+           ============================================ */
+        .services__grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 3rem;
+        }
+
+        .service {
+            text-align: left;
+        }
+
+        .service__image {
+            aspect-ratio: 3 / 4;
+            overflow: hidden;
+            margin-bottom: 1.75rem;
+            background: var(--color-section);
+        }
+
+        .service__image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.8s ease;
+        }
+
+        .service:hover .service__image img {
+            transform: scale(1.05);
+        }
+
+        .service__number {
+            font-family: var(--font-display);
+            font-style: italic;
+            font-size: 0.95rem;
+            color: var(--color-gold);
+            margin-bottom: 0.75rem;
+            display: block;
+        }
+
+        .service__title {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            font-style: italic;
+            font-weight: 500;
+        }
+
+        .service__text {
+            color: var(--color-text-soft);
+            font-size: 0.94rem;
+            line-height: 1.75;
+        }
+
+        @media (max-width: 768px) {
+            .services__grid {
+                grid-template-columns: 1fr;
+                gap: 4rem;
+            }
+        }
+
+        /* ============================================
+           ABOUT
+           ============================================ */
+        .about__grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: clamp(3rem, 7vw, 7rem);
+            align-items: center;
+        }
+
+        .about__image {
+            position: relative;
+        }
+
+        .about__image-wrap {
+            aspect-ratio: 4 / 5;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .about__image-wrap img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .about__image::before {
+            content: '';
+            position: absolute;
+            top: 1.5rem;
+            left: -1.5rem;
+            width: 100%;
+            height: 100%;
+            border: 1px solid var(--color-gold);
+            z-index: -1;
+        }
+
+        .about__eyebrow {
+            font-size: 0.72rem;
+            font-weight: 500;
+            letter-spacing: 0.35em;
+            text-transform: uppercase;
+            color: var(--color-gold);
+            margin-bottom: 1.5rem;
+        }
+
+        .about__title {
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-style: italic;
+            font-weight: 400;
+            margin-bottom: 2rem;
+        }
+
+        .about__text {
+            color: var(--color-text-soft);
+            font-size: 1rem;
+            margin-bottom: 1.25rem;
+            line-height: 1.85;
+        }
+
+        .about__quote {
+            font-family: var(--font-display);
+            font-style: italic;
+            font-size: 1.25rem;
+            color: var(--color-text);
+            border-left: 2px solid var(--color-gold);
+            padding-left: 1.5rem;
+            margin: 2.5rem 0 1rem;
+            line-height: 1.5;
+        }
+
+        .about__signature {
+            font-family: var(--font-display);
+            font-style: italic;
+            color: var(--color-gold);
+            font-size: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .about__grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* ============================================
+           ACADEMY SECTION
+           ============================================ */
+        .academy {
+            background: var(--color-text);
+            color: var(--color-bg);
+            padding: 9rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .academy::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--color-gold), transparent);
+        }
+
+        .academy__grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 5rem;
+            align-items: center;
+        }
+
+        .academy__eyebrow {
+            font-size: 0.72rem;
+            font-weight: 500;
+            letter-spacing: 0.35em;
+            text-transform: uppercase;
+            color: var(--color-gold);
+            margin-bottom: 1.5rem;
+        }
+
+        .academy__title {
+            font-size: clamp(2.25rem, 5vw, 3.75rem);
+            font-style: italic;
+            font-weight: 400;
+            margin-bottom: 2rem;
+            line-height: 1.1;
+        }
+
+        .academy__intro {
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 2.5rem;
+            line-height: 1.85;
+        }
+
+        .academy__courses {
+            list-style: none;
+            margin-bottom: 3rem;
+        }
+
+        .academy__course {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.25rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            transition: padding var(--transition);
+        }
+
+        .academy__course:hover {
+            padding-left: 1rem;
+        }
+
+        .academy__course-name {
+            font-family: var(--font-display);
+            font-style: italic;
+            font-size: 1.35rem;
+            font-weight: 500;
+        }
+
+        .academy__course-level {
+            font-size: 0.75rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--color-gold);
+        }
+
+        .academy__visuals {
+            position: relative;
+            aspect-ratio: 4 / 5;
+        }
+
+        .academy__visual {
+            overflow: hidden;
+            position: relative;
+        }
+
+        .academy__visual img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.8s ease;
+        }
+
+        .academy__visual:hover img {
+            transform: scale(1.08);
+        }
+
+        /* Glavna slika - The Learning Process, levo, šira da svi 3 budu vidljivi */
+        .academy__visual--main {
+            width: 85%;
+            height: 100%;
+            border: 1px solid rgba(212, 175, 55, 0.2);
+        }
+
+        /* Akcenat slika - Certified, desno-dole, preklopljena */
+        .academy__visual--accent {
+            position: absolute;
+            bottom: -2rem;
+            right: 0;
+            width: 50%;
+            aspect-ratio: 3 / 4;
+            border: 8px solid var(--color-text);
+            box-shadow: -20px 20px 50px rgba(0, 0, 0, 0.5);
+        }
+
+        .academy__visual-label {
+            position: absolute;
+            bottom: 1.25rem;
+            left: 1.25rem;
+            font-size: 0.7rem;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            color: var(--color-bg);
+            background: rgba(0, 0, 0, 0.4);
+            padding: 0.5rem 0.85rem;
+            backdrop-filter: blur(8px);
+        }
+
+        /* Label na akcentnoj slici je manji */
+        .academy__visual--accent .academy__visual-label {
+            font-size: 0.62rem;
+            bottom: 0.85rem;
+            left: 0.85rem;
+            padding: 0.4rem 0.7rem;
+        }
+
+        @media (max-width: 768px) {
+            .academy__grid {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+        }
+
+        /* ============================================
+           GALLERY
+           ============================================ */
+        .gallery__grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-auto-rows: 280px;
+            gap: 1rem;
+        }
+
+        .gallery__item {
+            overflow: hidden;
+            position: relative;
+            cursor: pointer;
+            background: var(--color-section);
+        }
+
+        .gallery__item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center 30%;
+            transition: transform 0.9s ease, filter var(--transition);
+        }
+
+        .gallery__item:hover img {
+            transform: scale(1.06);
+            filter: brightness(0.9);
+        }
+
+        .gallery__item::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border: 1px solid transparent;
+            transition: border-color var(--transition);
+            pointer-events: none;
+        }
+
+        .gallery__item:hover::after {
+            border-color: var(--color-gold);
+        }
+
+        .gallery__item--tall { grid-row: span 2; }
+        .gallery__item--wide { grid-column: span 2; }
+
+        /* Tall items koriste center fokus jer su pune visine portreta */
+        .gallery__item--tall img {
+            object-position: center center;
+        }
+
+        /* Wide items biraju center jer su landscape kropovi */
+        .gallery__item--wide img {
+            object-position: center center;
+        }
+
+        @media (max-width: 900px) {
+            .gallery__grid {
+                grid-template-columns: repeat(2, 1fr);
+                grid-auto-rows: 240px;
+            }
+            .gallery__item--wide { grid-column: span 2; }
+            .gallery__item--tall { grid-row: span 2; }
+        }
+
+        @media (max-width: 500px) {
+            .gallery__grid {
+                grid-template-columns: 1fr;
+                grid-auto-rows: 320px;
+            }
+            .gallery__item--wide,
+            .gallery__item--tall {
+                grid-row: span 1;
+                grid-column: span 1;
+            }
+        }
+
+        /* ============================================
+           TESTIMONIALS
+           ============================================ */
+        .testimonials__grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .testimonial {
+            background: var(--color-bg);
+            padding: 3rem 2.5rem;
+            border: 1px solid var(--color-line);
+            position: relative;
+            transition: all var(--transition);
+        }
+
+        .testimonial:hover {
+            border-color: var(--color-gold);
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.04);
+        }
+
+        .testimonial__stars {
+            color: var(--color-gold);
+            font-size: 0.95rem;
+            letter-spacing: 0.2em;
+            margin-bottom: 1.25rem;
+        }
+
+        .testimonial__text {
+            font-family: var(--font-display);
+            font-style: italic;
+            font-size: 1.1rem;
+            line-height: 1.65;
+            color: var(--color-text);
+            margin-bottom: 1.75rem;
+        }
+
+        .testimonial__author {
+            display: flex;
+            align-items: center;
+            gap: 0.85rem;
+            padding-top: 1.25rem;
+            border-top: 1px solid var(--color-line);
+        }
+
+        .testimonial__author-name {
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        .testimonial__author-role {
+            font-size: 0.78rem;
+            color: var(--color-text-muted);
+            margin-top: 0.15rem;
+        }
+
+        @media (max-width: 960px) {
+            .testimonials__grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 600px) {
+            .testimonials__grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* ============================================
+           CONTACT
+           ============================================ */
+        .contact {
+            text-align: center;
+            padding: 8rem 0 4rem;
+        }
+
+        .contact__title {
+            font-size: clamp(2.25rem, 5vw, 3.5rem);
+            font-style: italic;
+            font-weight: 400;
+            margin-bottom: 1.25rem;
+        }
+
+        .contact__text {
+            color: var(--color-text-soft);
+            max-width: 520px;
+            margin: 0 auto 3.5rem;
+            font-size: 1rem;
+        }
+
+        .contact__channels {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 3.5rem;
+            flex-wrap: wrap;
+        }
+
+        .contact-channel {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.65rem;
+            padding: 1rem 1.5rem;
+            border: 1px solid var(--color-line);
+            background: var(--color-bg);
+            font-size: 0.78rem;
+            font-weight: 600;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            transition: all var(--transition);
+        }
+
+        .contact-channel:hover {
+            border-color: var(--color-gold);
+            color: var(--color-gold);
+            transform: translateY(-2px);
+        }
+
+        .contact-channel svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        .contact__details {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            font-size: 0.88rem;
+            color: var(--color-text-soft);
+            flex-wrap: wrap;
+        }
+
+        .contact__details strong {
+            font-weight: 600;
+            color: var(--color-text);
+            letter-spacing: 0.05em;
+        }
+
+        .contact__phone {
+            font-family: var(--font-display);
+            font-style: italic;
+            font-size: 1.15rem;
+            color: var(--color-text);
+            display: inline-block;
+            padding: 0.25rem 0;
+            transition: color 0.25s ease;
+            text-decoration: none;
+            -webkit-touch-callout: default;  /* iOS: omogući long-press dialog na broju */
+        }
+
+        .contact__phone:hover,
+        .contact__phone:focus {
+            color: var(--color-gold);
+        }
+
+        /* ============================================
+           FOOTER
+           ============================================ */
+        .footer {
+            border-top: 1px solid var(--color-line);
+            padding: 2.5rem 0;
+            text-align: center;
+        }
+
+        .footer__inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .footer__logo {
+            display: inline-flex;
+            height: 36px;
+        }
+
+        .footer__logo img {
+            height: 100%;
+            width: auto;
+            display: block;
+            opacity: 0.85;
+        }
+
+        .footer__copy {
+            font-size: 0.78rem;
+            color: var(--color-text-muted);
+            letter-spacing: 0.08em;
+        }
+
+        /* ============================================
+           ANIMATIONS — Reveal on scroll
+           ============================================ */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 1s ease, transform 1s ease;
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Stagger animations for hero on page load */
+        .hero__eyebrow,
+        .hero__title,
+        .hero__subtitle,
+        .hero__actions {
+            animation: fadeUp 1s ease both;
+        }
+
+        .hero__title { animation-delay: 0.15s; }
+        .hero__subtitle { animation-delay: 0.3s; }
+        .hero__actions { animation-delay: 0.45s; }
+
+        .hero__visual {
+            animation: fadeIn 1.2s ease 0.2s both;
+        }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* ============================================
+           RESPONSIVE — Komprehensivni mobile fix
+           Breakpoint strategija:
+           - 1024px: tablet portrait (manji desktop)
+           - 768px: tablet → mobile tranzicija
+           - 480px: standard mobile
+           - 380px: mali iPhone SE / stari Androidi
+           ============================================ */
+        
+        /* ===== TABLET (1024px i niže) ===== */
+        @media (max-width: 1024px) {
+            .nav__menu { gap: 1.5rem; }
+            .nav__menu a { font-size: 0.72rem; }
+        }
+        
+        /* ===== MOBILE (768px i niže) ===== */
+        @media (max-width: 768px) {
+            /* Globalna konzistentnost */
+            :root {
+                --gutter: 1.25rem;  /* Konzistentnih 20px sa svake strane na mobilu */
+            }
+            
+            .section { padding: 4rem 0; }
+            .section-header { margin-bottom: 2.5rem; }
+            .section-header__subtitle { font-size: 0.95rem; padding: 0 0.5rem; }
+            
+            /* === NAV === */
+            .nav__inner {
+                padding-top: 1rem;
+                padding-bottom: 1rem;
+                gap: 1rem;
+            }
+            
+            /* Hide desktop CTA button, show hamburger umesto njega */
+            .nav__cta {
+                display: none;
+            }
+            
+            .nav__toggle {
+                display: flex;
+            }
+            
+            /* Mobile dropdown menu */
+            .nav__menu {
+                display: flex;
+                position: fixed;
+                top: 75px;
+                left: 0;
+                right: 0;
+                background: rgba(255, 255, 255, 0.98);
+                -webkit-backdrop-filter: blur(12px);
+                backdrop-filter: blur(12px);
+                flex-direction: column;
+                align-items: stretch;
+                gap: 0;
+                padding: 0.5rem 0 1rem;
+                transform: translateY(-110%);
+                opacity: 0;
+                visibility: hidden;
+                transition: transform 0.35s ease, opacity 0.25s ease, visibility 0s linear 0.3s;
+                box-shadow: 0 10px 30px rgba(0,0,0,0.07);
+                border-bottom: 1px solid rgba(0,0,0,0.06);
+            }
+            
+            .nav__menu.is-open {
+                transform: translateY(0);
+                opacity: 1;
+                visibility: visible;
+                transition: transform 0.35s ease, opacity 0.25s ease, visibility 0s linear 0s;
+            }
+            
+            .nav__menu li {
+                width: 100%;
+            }
+            
+            /* Vrati mobile-cta vidljiv na mobile-u */
+            .nav__menu-cta-mobile {
+                display: block;
+            }
+            
+            .nav__menu li a {
+                display: block;
+                padding: 1.1rem 1.5rem;
+                font-size: 0.85rem;
+                letter-spacing: 0.15em;
+                text-transform: uppercase;
+                color: var(--color-text);
+                font-weight: 500;
+                border-bottom: 1px solid rgba(0,0,0,0.04);
+            }
+            
+            .nav__menu li a:hover,
+            .nav__menu li a:active {
+                color: var(--color-gold);
+                background: rgba(212, 175, 55, 0.05);
+            }
+            
+            .nav__menu-cta-mobile a {
+                color: var(--color-gold) !important;
+                background: rgba(212, 175, 55, 0.08) !important;
+                margin-top: 0.4rem;
+                border-bottom: none !important;
+                font-weight: 600;
+            }
+            
+            /* === HERO === */
+            .hero { padding: 7rem 0 3rem; }
+            .hero__grid {
+                grid-template-columns: 1fr;
+                gap: 2.5rem;
+            }
+            .hero__content { 
+                padding-left: 0; 
+                text-align: left;
+            }
+            .hero__visual::before,
+            .hero__visual::after {
+                width: 20%;
+                height: 20%;
+                top: -0.75rem;
+                left: -0.75rem;
+            }
+            .hero__visual::after {
+                top: auto;
+                left: auto;
+                bottom: -0.75rem;
+                right: -0.75rem;
+            }
+            .hero__image-main { aspect-ratio: 3 / 4; }   /* manje vertikalna, lakša za skroll */
+            .hero__eyebrow { 
+                font-size: 0.68rem; 
+                letter-spacing: 0.2em;
+            }
+            .hero__title { font-size: 2.75rem; }
+            .hero__subtitle { font-size: 0.95rem; }
+            .hero__image-label {
+                font-size: 0.55rem;
+                padding: 0.45rem 0.7rem;
+            }
+            
+            /* === BUTTONS — manje letter-spacing da stane bez wrap-a === */
+            .btn {
+                padding: 0.95rem 1.5rem;
+                font-size: 0.72rem;
+                letter-spacing: 0.15em;
+                width: 100%;
+                max-width: 320px;
+                justify-content: center;
+            }
+            .hero__actions {
+                gap: 1rem;
+                flex-wrap: wrap;
+            }
+            .btn__icon-link {
+                width: 48px;
+                height: 48px;
+                flex-shrink: 0;
+            }
+            
+            /* === SECTION HEADERS === */
+            .section-header__eyebrow,
+            .about__eyebrow,
+            .academy__eyebrow {
+                font-size: 0.65rem;
+                letter-spacing: 0.25em;
+            }
+            
+            /* === SERVICES === */
+            .services__grid {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+            .service__image { 
+                aspect-ratio: 4 / 5;   /* manje high na mobilu */
+                max-height: 500px;
+            }
+            .service__title { font-size: 1.35rem; }
+            
+            /* === ABOUT === */
+            .about__grid {
+                grid-template-columns: 1fr;
+                gap: 2.5rem;
+            }
+            .about__image::before {
+                top: 0.75rem;
+                left: -0.75rem;
+            }
+            .about__title { font-size: 1.85rem; }
+            .about__text { font-size: 0.95rem; }
+            .about__quote {
+                font-size: 1.1rem;
+                padding-left: 1rem;
+                margin: 2rem 0 1rem;
+            }
+            
+            /* === ACADEMY — KRITIČNI FIX === */
+            .academy { padding: 5rem 0; }
+            .academy__grid {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+            .academy__title { font-size: 2.25rem; }
+            .academy__intro { font-size: 0.95rem; }
+            .academy__course-name { font-size: 1.15rem; }
+            .academy__course-level { 
+                font-size: 0.65rem; 
+                letter-spacing: 0.15em;
+                white-space: nowrap;  /* nikad ne lomi "NAPREDNI NIVO" */
+            }
+            
+            /* Academy visuals — restruktuirano za mobile: glavna slika full + manja ispod */
+            .academy__visuals {
+                aspect-ratio: auto;
+                position: relative;
+                padding-bottom: 4rem;  /* prostor za overlap manje slike */
+            }
+            .academy__visual--main {
+                position: relative;
+                width: 92%;
+                height: auto;
+                aspect-ratio: 3 / 4;
+            }
+            .academy__visual--main img {
+                position: absolute;
+                inset: 0;
+            }
+            .academy__visual--accent {
+                position: absolute;
+                bottom: 0;
+                right: 0;
+                width: 55%;
+                aspect-ratio: 3 / 4;
+                border-width: 6px;
+            }
+            .academy__visual-label {
+                font-size: 0.55rem;
+                padding: 0.4rem 0.65rem;
+            }
+            
+            /* === GALLERY === */
+            .gallery__grid {
+                grid-template-columns: repeat(2, 1fr);
+                grid-auto-rows: 200px;
+                gap: 0.5rem;
+            }
+            .gallery__item--wide { grid-column: span 2; }
+            .gallery__item--tall { grid-row: span 2; }
+            
+            /* === TESTIMONIALS === */
+            .testimonials__grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+                max-width: 100%;
+            }
+            .testimonial {
+                padding: 2rem 1.5rem;
+            }
+            .testimonial__text { 
+                font-size: 1rem;
+                margin-bottom: 1.25rem;
+            }
+            
+            /* === CONTACT === */
+            .contact { padding: 5rem 0 3rem; }
+            .contact__title { font-size: 2.25rem; }
+            .contact__text { font-size: 0.95rem; margin-bottom: 2.5rem; }
+            .contact__channels {
+                gap: 0.65rem;
+                flex-direction: row;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            .contact-channel {
+                font-size: 0.68rem;
+                letter-spacing: 0.1em;
+                padding: 0.85rem 1.1rem;
+                min-height: 48px;       /* iOS touch target */
+                flex: 1 1 calc(50% - 0.65rem);
+                max-width: 200px;
+            }
+            .contact__details {
+                gap: 1.5rem;
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+            .contact__phone { font-size: 1.05rem; }
+            
+            /* === FOOTER === */
+            .footer__inner {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+            .footer__logo { height: 30px; }
+            .footer__copy { font-size: 0.7rem; }
+        }
+        
+        /* ===== MALI MOBILE (480px i niže — iPhone SE, stari Androidi) ===== */
+        @media (max-width: 480px) {
+            .hero__title { font-size: 2.35rem; }
+            .academy__title { font-size: 1.95rem; }
+            .contact__title { font-size: 1.95rem; }
+            .section-header__title { font-size: 2rem; }
+            
+            /* Galerija u 1 koloni — portrait ćelije koje prate prirodni oblik fotografija */
+            .gallery__grid {
+                grid-template-columns: 1fr;
+                grid-auto-rows: auto;
+                gap: 0.65rem;
+            }
+            .gallery__item {
+                aspect-ratio: 3 / 4;       /* portrait, isto kao većina foto-a */
+                height: auto;
+            }
+            .gallery__item--wide,
+            .gallery__item--tall {
+                grid-row: span 1;
+                grid-column: span 1;
+                aspect-ratio: 3 / 4;
+            }
+            .gallery__item--wide {
+                aspect-ratio: 4 / 3;        /* landscape format za "wide" slike */
+            }
+            /* Pozicioniraj sliku da favorizuje lice (gornji deo slike) */
+            .gallery__item img {
+                object-position: center 22%;
+            }
+            
+            /* Academy accent manji da bolje stane */
+            .academy__visual--accent {
+                width: 60%;
+            }
+            
+            /* Contact channels stack vertikalno */
+            .contact-channel {
+                flex: 1 1 100%;
+                max-width: 280px;
+            }
+        }
+        
+        /* ===== EKSTRA MALI (380px i niže) ===== */
+        @media (max-width: 380px) {
+            :root { --gutter: 1rem; }
+            .hero__title { font-size: 2.1rem; }
+            .btn { font-size: 0.68rem; padding: 0.85rem 1.25rem; }
+            .nav__logo { height: 38px; }
+        }
+        
+        /* ===== iOS SAFARI specifični fixovi ===== */
+        @supports (-webkit-touch-callout: none) {
+            /* Safe area insets za iPhone notch */
+            .nav { padding-top: env(safe-area-inset-top); }
+            .footer { padding-bottom: max(2.5rem, env(safe-area-inset-bottom)); }
+            
+            /* iOS Safari 100vh fix (URL bar problem) */
+            .hero { min-height: -webkit-fill-available; }
+        }
+        
+        /* ===== Reduced motion (accessibility, neki preferiraju manje animacija) ===== */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                transition-duration: 0.01ms !important;
+            }
+            .reveal { opacity: 1; transform: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ============ NAVIGATION ============ -->
+    <nav class="nav" id="nav">
+        <div class="container nav__inner">
+            <a href="#" class="nav__logo" aria-label="Suzy Makeup - Početna">
+                <img src="./images/suzy-logo.png" alt="Suzy Makeup">
+            </a>
+            <ul class="nav__menu" id="navMenu">
+                <li><a href="#about">O meni</a></li>
+                <li><a href="#services">Usluge</a></li>
+                <li><a href="#gallery">Galerija</a></li>
+                <li><a href="#academy">The Academy</a></li>
+                <li class="nav__menu-cta-mobile"><a href="#contact">Kontakt</a></li>
+            </ul>
+            <a href="#contact" class="nav__cta">Kontakt</a>
+            <button class="nav__toggle" id="navToggle" aria-label="Otvori meni" aria-expanded="false">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- ============ HERO ============ -->
+    <header class="hero">
+        <div class="container">
+            <div class="hero__grid">
+                <div class="hero__visual">
+                    <div class="hero__image-main">
+                        <img src="./images/suzy-portrait.jpg" alt="Suzana — Suzy Make-up u svom studiju">
+                        <span class="hero__image-label">The Atelier</span>
+                    </div>
+                </div>
+
+                <div class="hero__content">
+                    <div class="hero__eyebrow">Paraćin · Srbija</div>
+                    <h1 class="hero__title">Suzy_make_up</h1>
+                    <p class="hero__subtitle">Profesionalno šminkanje i edukacije. Lepota koja vas podseti zašto ste oduvek voleli sebe.</p>
+                    <div class="hero__actions">
+                        <a href="#contact" class="btn btn--gold">
+                            Zakaži svoj termin
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M5 12h14M13 5l7 7-7 7"/>
+                            </svg>
+                        </a>
+                        <a href="https://www.instagram.com/suzy_make_up/" target="_blank" rel="noopener" class="btn__icon-link" aria-label="Instagram">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                                <rect x="2" y="2" width="20" height="20" rx="5"/>
+                                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+                                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- ============ SERVICES ============ -->
+    <section class="section" id="services">
+        <div class="container">
+            <div class="section-header reveal">
+                <div class="section-header__eyebrow">Šta nudim</div>
+                <h2 class="section-header__title">Usluge</h2>
+            </div>
+
+            <div class="services__grid">
+                <article class="service reveal">
+                    <div class="service__image">
+                        <img src="./images/service-bridal.jpg" alt="Svadbena šminka">
+                    </div>
+                    <span class="service__number">— 01</span>
+                    <h3 class="service__title">Svadbena šminka</h3>
+                    <p class="service__text">Vaš najvažniji dan zaslužuje izgled koji traje od jutarnjih priprema do poslednjeg plesa — svežu, prirodnu i fotogeničnu lepotu.</p>
+                </article>
+
+                <article class="service reveal">
+                    <div class="service__image">
+                        <img src="./images/service-glam.jpg" alt="Profesionalno šminkanje">
+                    </div>
+                    <span class="service__number">— 02</span>
+                    <h3 class="service__title">Profesionalno šminkanje</h3>
+                    <p class="service__text">Bez obzira da li je u pitanju poslovni sastanak, izlazak ili posebna prilika — istaknite svoju prirodnu lepotu na način koji vam odgovara.</p>
+                </article>
+
+                <article class="service reveal">
+                    <div class="service__image">
+                        <img src="./images/service-academy.jpg" alt="Edukacije i kursevi">
+                    </div>
+                    <span class="service__number">— 03</span>
+                    <h3 class="service__title">Edukacije i kursevi</h3>
+                    <p class="service__text">Individualni časovi — od osnova do naprednih tehnika. Pravo znanje, praktične vežbe i podrška kroz svaki korak.</p>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ ABOUT ============ -->
+    <section class="section section--alt" id="about">
+        <div class="container">
+            <div class="about__grid">
+                <div class="about__image reveal">
+                    <div class="about__image-wrap">
+                        <img src="./images/suzana-about.jpg" alt="Suzana — Suzy Make-up">
+                    </div>
+                </div>
+
+                <div class="about__content reveal">
+                    <div class="about__eyebrow">O meni</div>
+                    <h2 class="about__title">Lepota je jezik</h2>
+                    <p class="about__text">Šminkanje za mene nije samo zanimanje — to je način na koji slušam ljude. Svako lice nosi priču, a moj zadatak je da je istaknem, ne da je sakrijem.</p>
+                    <p class="about__text">Već više od 5 godina radim sa mladenkama, ženama spremnim za posebne trenutke, kao i sa devojkama koje žele da i same uđu u svet šminke kroz edukacije i kurseve.</p>
+                    <p class="about__text">Verujem u tehniku, u kvalitetne proizvode, ali pre svega — u iskreni odnos sa klijentom.</p>
+                    
+                    <blockquote class="about__quote">
+                        „Najlepša šminka je ona koja vas podseti zašto ste oduvek voleli sebe."
+                    </blockquote>
+                    <div class="about__signature">— Suzana</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ ACADEMY ============ -->
+    <section class="academy" id="academy">
+        <div class="container">
+            <div class="academy__grid">
+                <div class="academy__content reveal">
+                    <div class="academy__eyebrow">The Academy</div>
+                    <h2 class="academy__title">Suzy Make-up<br>Academy</h2>
+                    <p class="academy__intro">Strukturirani program — od ličnog kursa za sebe, preko bazične profesionalne obuke, do mastery nivoa. Praktične vežbe, individualni pristup i prava podrška.</p>
+
+                    <ul class="academy__courses">
+                        <li class="academy__course">
+                            <span class="academy__course-name">Našminkaj se sama</span>
+                            <span class="academy__course-level">Za sebe</span>
+                        </li>
+                        <li class="academy__course">
+                            <span class="academy__course-name">Bazična obuka</span>
+                            <span class="academy__course-level">Početni nivo</span>
+                        </li>
+                        <li class="academy__course">
+                            <span class="academy__course-name">Profesionalno usavršavanje</span>
+                            <span class="academy__course-level">Napredni nivo</span>
+                        </li>
+                    </ul>
+
+                    <a href="#contact" class="btn btn--gold">
+                        Zakaži konsultacije za edukaciju
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M5 12h14M13 5l7 7-7 7"/>
+                        </svg>
+                    </a>
+                </div>
+
+                <div class="academy__visuals reveal">
+                    <div class="academy__visual academy__visual--main">
+                        <img src="./images/academy-learning.jpg" alt="The Learning Process">
+                        <span class="academy__visual-label">The Learning Process</span>
+                    </div>
+                    <div class="academy__visual academy__visual--accent">
+                        <img src="./images/academy-certified.jpg" alt="Certified Students">
+                        <span class="academy__visual-label">Certified Students</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ GALLERY ============ -->
+    <section class="section" id="gallery">
+        <div class="container">
+            <div class="section-header reveal">
+                <div class="section-header__eyebrow">Portfolio</div>
+                <h2 class="section-header__title">Galerija</h2>
+                <p class="section-header__subtitle">Izbor radova iz protekle sezone — mladenke, večernji glam izgledi i radovi mojih polaznica nastali tokom edukacija.</p>
+            </div>
+
+            <div class="gallery__grid reveal">
+                <!-- Row 1 left: TALL — editorial profil (g12), najsofisticiranija slika -->
+                <div class="gallery__item gallery__item--tall">
+                    <img src="./images/gallery-01-tall.jpg" alt="Editorial profile look">
+                </div>
+                <!-- Row 1 col 2: regular — slick back glam (g04) -->
+                <div class="gallery__item">
+                    <img src="./images/gallery-02.jpg" alt="Slick back glam">
+                </div>
+                <!-- Row 1 col 3: regular — red lips (g06) -->
+                <div class="gallery__item">
+                    <img src="./images/gallery-03.jpg" alt="Bold red lips">
+                </div>
+                <!-- Row 1 right: TALL — mladenka sa buketom (g09) -->
+                <div class="gallery__item gallery__item--tall">
+                    <img src="./images/gallery-04-tall.jpg" alt="Svadbena šminka">
+                </div>
+                <!-- Row 2 middle: WIDE — close-up očiju (g07), centralni vizuelni statement -->
+                <div class="gallery__item gallery__item--wide">
+                    <img src="./images/gallery-05-wide.jpg" alt="Close-up makeup detail">
+                </div>
+                <!-- Row 3: 4 regular -->
+                <div class="gallery__item">
+                    <img src="./images/gallery-06.jpg" alt="Natural curls glam">
+                </div>
+                <div class="gallery__item">
+                    <img src="./images/gallery-07.jpg" alt="Voluminous wavy hair">
+                </div>
+                <div class="gallery__item">
+                    <img src="./images/gallery-08.jpg" alt="Soft nude glam">
+                </div>
+                <div class="gallery__item">
+                    <img src="./images/gallery-09.jpg" alt="Glowing skin look">
+                </div>
+                <!-- Row 4 left: WIDE — mladenka kod oltara (g10) -->
+                <div class="gallery__item gallery__item--wide">
+                    <img src="./images/gallery-10-wide.jpg" alt="Svadbena lokacija">
+                </div>
+                <!-- Row 4 right: 2 regular -->
+                <div class="gallery__item">
+                    <img src="./images/gallery-11.jpg" alt="Mature client natural makeup">
+                </div>
+                <div class="gallery__item">
+                    <img src="./images/gallery-12.jpg" alt="Soft pink glam">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ TESTIMONIALS ============ -->
+    <section class="section section--alt">
+        <div class="container">
+            <div class="section-header reveal">
+                <div class="section-header__eyebrow">Reči koje greju</div>
+                <h2 class="section-header__title">Utisci klijenata</h2>
+                <p class="section-header__subtitle">Iskreni utisci mladenki, polaznica i klijentkinja koje su mi ukazale poverenje.</p>
+            </div>
+
+            <div class="testimonials__grid">
+                <article class="testimonial reveal">
+                    <div class="testimonial__stars">★ ★ ★ ★ ★</div>
+                    <p class="testimonial__text">„Suzana je napravila pravo čudo za moj venčani dan. Šminka je izgledala besprekorno od jutra do duboko u noć — fotografije su govorile za sebe. Najbitnije: osećala sam se kao ja, samo blistavija."</p>
+                    <div class="testimonial__author">
+                        <div>
+                            <div class="testimonial__author-name">Mladenka</div>
+                            <div class="testimonial__author-role">Svadbena šminka, 2024</div>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="testimonial reveal">
+                    <div class="testimonial__stars">★ ★ ★ ★ ★</div>
+                    <p class="testimonial__text">„Pohađala sam Bazičnu obuku i utisci su iznad svih očekivanja. Pristup je strpljiv, tehnike su jasne, a praktične vežbe me stvarno pripremaju za rad sa klijentima. Najbolja investicija u sebe."</p>
+                    <div class="testimonial__author">
+                        <div>
+                            <div class="testimonial__author-name">Polaznica Akademije</div>
+                            <div class="testimonial__author-role">Bazična obuka</div>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="testimonial reveal">
+                    <div class="testimonial__stars">★ ★ ★ ★ ★</div>
+                    <p class="testimonial__text">„Prvi put sam išla kod Suzane za godišnjicu i odmah sam znala da se vraćam. Pristup je profesionalan ali topao, šminka je trajala celo veče i na fotografijama je izgledala besprekorno. Konačno sam našla nekoga kome verujem."</p>
+                    <div class="testimonial__author">
+                        <div>
+                            <div class="testimonial__author-name">Klijentkinja</div>
+                            <div class="testimonial__author-role">Profesionalno šminkanje</div>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ CONTACT ============ -->
+    <section class="contact" id="contact">
+        <div class="container">
+            <div class="reveal">
+                <h2 class="contact__title">Hajde da se čujemo</h2>
+                <p class="contact__text">Bilo da je u pitanju šminkanje za poseban dan ili konsultacija za edukaciju — uvek mi se javite. Odgovaram u najkraćem mogućem roku.</p>
+
+                <div class="contact__channels">
+                    <a href="https://www.instagram.com/suzy_make_up/" target="_blank" rel="noopener" class="contact-channel">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                            <rect x="2" y="2" width="20" height="20" rx="5"/>
+                            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+                            <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+                        </svg>
+                        Instagram
+                    </a>
+                    <a href="https://wa.me/381646872075" target="_blank" class="contact-channel">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                            <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
+                        </svg>
+                        WhatsApp
+                    </a>
+                    <a href="viber://chat?number=%2B381646872075" class="contact-channel">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+                        </svg>
+                        Viber
+                    </a>
+                </div>
+
+                <div class="contact__details">
+                    <div>
+                        <strong>Lokacija</strong><br>
+                        Miloja Jocića 67, Paraćin
+                    </div>
+                    <div>
+                        <strong>Telefon</strong><br>
+                        <a href="tel:+381646872075" class="contact__phone">064 687 2075</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ FOOTER ============ -->
+    <footer class="footer">
+        <div class="container footer__inner">
+            <div class="footer__logo">
+                <img src="./images/suzy-logo.png" alt="Suzy Makeup">
+            </div>
+            <div class="footer__copy">© 2026 — Sva prava zadržana</div>
+        </div>
+    </footer>
+
+    <!-- ============ JS — Suptilne interakcije ============ -->
+    <script>
+        // Nav border on scroll
+        const nav = document.getElementById('nav');
+        window.addEventListener('scroll', () => {
+            nav.classList.toggle('scrolled', window.scrollY > 20);
+        });
+
+        // Mobile hamburger menu toggle
+        const navToggle = document.getElementById('navToggle');
+        const navMenu = document.getElementById('navMenu');
+        
+        if (navToggle && navMenu) {
+            navToggle.addEventListener('click', () => {
+                const isOpen = navMenu.classList.toggle('is-open');
+                navToggle.classList.toggle('is-open');
+                navToggle.setAttribute('aria-expanded', isOpen);
+                navToggle.setAttribute('aria-label', isOpen ? 'Zatvori meni' : 'Otvori meni');
+                // Sprečava skrolovanje pozadine kad je menu otvoren
+                document.body.style.overflow = isOpen ? 'hidden' : '';
+            });
+            
+            // Zatvori menu kad korisnik klikne na neki link
+            navMenu.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    navMenu.classList.remove('is-open');
+                    navToggle.classList.remove('is-open');
+                    navToggle.setAttribute('aria-expanded', 'false');
+                    navToggle.setAttribute('aria-label', 'Otvori meni');
+                    document.body.style.overflow = '';
+                });
+            });
+        }
+
+        // Reveal on scroll (Intersection Observer — moderan pristup)
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, {
+            threshold: 0.12,
+            rootMargin: '0px 0px -50px 0px'
+        });
+
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+    </script>
+
+</body>
+</html>
