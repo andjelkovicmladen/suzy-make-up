@@ -2,7 +2,7 @@
 
 Luxury landing page za **Suzy_make_up**, profesionalnog vizažistu i edukatorku iz Paraćina, Srbija.
 
-🔗 **Live:** [suzy-makeup.vercel.app](https://suzy-makeup.vercel.app) *(uskoro)*
+🔗 **Live:** [suzy-makeup.vercel.app](https://suzy-make-up.vercel.app/) 
 
 ---
 
