@@ -9,11 +9,11 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="format-detection" content="telephone=yes">
     <title>Suzy_make_up — Profesionalno šminkanje i edukacije</title>
-    <meta name="description" content="Profesionalno šminkanje za mladenke, posebne prilike i edukacije. Suzy Make-up Academy — od osnova do naprednih tehnika.">
+    <meta name="description" content="Profesionalno šminkanje za mlade, posebne prilike i edukacije. Suzy Make-up Academy — od osnova do naprednih tehnika.">
     
     <!-- Open Graph / Social sharing -->
     <meta property="og:title" content="Suzy_make_up — Profesionalno šminkanje i edukacije">
-    <meta property="og:description" content="Lepota koja vas podseti zašto ste oduvek voleli sebe. Profesionalno šminkanje za mladenke i edukacije u Paraćinu.">
+    <meta property="og:description" content="Lepota koja vas podseti zašto ste oduvek voleli sebe. Profesionalno šminkanje za mlade i edukacije u Paraćinu.">
     <meta property="og:type" content="website">
     <meta property="og:locale" content="sr_RS">
     
@@ -623,6 +623,82 @@
         }
 
         /* ============================================
+           MENTOR / USAVRŠAVANJE (unutar O meni)
+           ============================================ */
+        .mentor {
+            margin-top: clamp(4rem, 8vw, 7rem);
+        }
+
+        /* Slika je sa desne strane — zlatni okvir-akcenat ide desno */
+        .about__image--right::before {
+            left: auto;
+            right: -1.5rem;
+        }
+
+        /* ============================================
+           STATS BAR (500+ / 5+ / 100%)
+           ============================================ */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            margin-top: clamp(4rem, 8vw, 6rem);
+            padding-top: clamp(3rem, 6vw, 4rem);
+            border-top: 1px solid var(--color-line);
+            text-align: center;
+        }
+
+        .stat {
+            position: relative;
+            padding: 0 1rem;
+        }
+
+        /* Zlatni vertikalni razdelnik između stavki */
+        .stat + .stat::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 1px;
+            height: 60%;
+            background: var(--color-line);
+        }
+
+        .stat__num {
+            display: block;
+            font-family: var(--font-display);
+            font-style: italic;
+            font-weight: 500;
+            font-size: clamp(2.25rem, 5vw, 3.25rem);
+            color: var(--color-gold);
+            line-height: 1;
+            margin-bottom: 0.6rem;
+        }
+
+        .stat__label {
+            display: block;
+            font-size: 0.72rem;
+            font-weight: 500;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--color-text-soft);
+        }
+
+        @media (max-width: 480px) {
+            .stats {
+                gap: 0.5rem;
+            }
+            .stat {
+                padding: 0 0.35rem;
+            }
+            .stat__label {
+                font-size: 0.6rem;
+                letter-spacing: 0.1em;
+            }
+        }
+
+        /* ============================================
            ACADEMY SECTION
            ============================================ */
         .academy {
@@ -706,20 +782,25 @@
             color: var(--color-gold);
         }
 
+        /* 2x2 mreža slika */
         .academy__visuals {
-            position: relative;
-            aspect-ratio: 4 / 5;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.85rem;
         }
 
         .academy__visual {
             overflow: hidden;
             position: relative;
+            aspect-ratio: 3 / 4;
+            border: 1px solid rgba(212, 175, 55, 0.18);
         }
 
         .academy__visual img {
             width: 100%;
             height: 100%;
             object-fit: cover;
+            object-position: center 30%;   /* favorizuje lica u gornjem delu */
             transition: transform 0.8s ease;
         }
 
@@ -727,43 +808,18 @@
             transform: scale(1.08);
         }
 
-        /* Glavna slika - The Learning Process, levo, šira da svi 3 budu vidljivi */
-        .academy__visual--main {
-            width: 85%;
-            height: 100%;
-            border: 1px solid rgba(212, 175, 55, 0.2);
-        }
-
-        /* Akcenat slika - Certified, desno-dole, preklopljena */
-        .academy__visual--accent {
-            position: absolute;
-            bottom: -2rem;
-            right: 0;
-            width: 50%;
-            aspect-ratio: 3 / 4;
-            border: 8px solid var(--color-text);
-            box-shadow: -20px 20px 50px rgba(0, 0, 0, 0.5);
-        }
-
         .academy__visual-label {
             position: absolute;
-            bottom: 1.25rem;
-            left: 1.25rem;
-            font-size: 0.7rem;
-            letter-spacing: 0.25em;
-            text-transform: uppercase;
-            color: var(--color-bg);
-            background: rgba(0, 0, 0, 0.4);
-            padding: 0.5rem 0.85rem;
-            backdrop-filter: blur(8px);
-        }
-
-        /* Label na akcentnoj slici je manji */
-        .academy__visual--accent .academy__visual-label {
-            font-size: 0.62rem;
             bottom: 0.85rem;
             left: 0.85rem;
+            font-size: 0.62rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--color-bg);
+            background: rgba(0, 0, 0, 0.45);
             padding: 0.4rem 0.7rem;
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
         }
 
         @media (max-width: 768px) {
@@ -1296,35 +1352,18 @@
                 white-space: nowrap;  /* nikad ne lomi "NAPREDNI NIVO" */
             }
             
-            /* Academy visuals — restruktuirano za mobile: glavna slika full + manja ispod */
+            /* Academy visuals — 2x2 mreža, kompaktnija na mobilnom */
             .academy__visuals {
-                aspect-ratio: auto;
-                position: relative;
-                padding-bottom: 4rem;  /* prostor za overlap manje slike */
-            }
-            .academy__visual--main {
-                position: relative;
-                width: 92%;
-                height: auto;
-                aspect-ratio: 3 / 4;
-            }
-            .academy__visual--main img {
-                position: absolute;
-                inset: 0;
-            }
-            .academy__visual--accent {
-                position: absolute;
-                bottom: 0;
-                right: 0;
-                width: 55%;
-                aspect-ratio: 3 / 4;
-                border-width: 6px;
+                gap: 0.6rem;
             }
             .academy__visual-label {
-                font-size: 0.55rem;
-                padding: 0.4rem 0.65rem;
+                font-size: 0.5rem;
+                letter-spacing: 0.12em;
+                bottom: 0.6rem;
+                left: 0.6rem;
+                padding: 0.35rem 0.55rem;
             }
-            
+
             /* === GALLERY === */
             .gallery__grid {
                 grid-template-columns: repeat(2, 1fr);
@@ -1414,12 +1453,6 @@
             .gallery__item img {
                 object-position: center 22%;
             }
-            
-            /* Academy accent manji da bolje stane */
-            .academy__visual--accent {
-                width: 60%;
-            }
-            
             /* Contact channels stack vertikalno */
             .contact-channel {
                 flex: 1 1 100%;
@@ -1567,13 +1600,45 @@
                     <div class="about__eyebrow">O meni</div>
                     <h2 class="about__title">Lepota je jezik</h2>
                     <p class="about__text">Šminkanje za mene nije samo zanimanje — to je način na koji slušam ljude. Svako lice nosi priču, a moj zadatak je da je istaknem, ne da je sakrijem.</p>
-                    <p class="about__text">Već više od 5 godina radim sa mladenkama, ženama spremnim za posebne trenutke, kao i sa devojkama koje žele da i same uđu u svet šminke kroz edukacije i kurseve.</p>
+                    <p class="about__text">Već više od 5 godina radim sa mladama, ženama spremnim za posebne trenutke, kao i sa devojkama koje žele da i same uđu u svet šminke kroz edukacije i kurseve.</p>
                     <p class="about__text">Verujem u tehniku, u kvalitetne proizvode, ali pre svega — u iskreni odnos sa klijentom.</p>
                     
                     <blockquote class="about__quote">
                         „Najlepša šminka je ona koja vas podseti zašto ste oduvek voleli sebe."
                     </blockquote>
                     <div class="about__signature">— Suzana</div>
+                </div>
+            </div>
+
+            <!-- Usavršavanje / Bojana Vukadinov -->
+            <div class="about__grid mentor">
+                <div class="about__content reveal">
+                    <div class="about__eyebrow">Edukacija i usavršavanje</div>
+                    <h2 class="about__title">Učenje koje nikada ne prestaje</h2>
+                    <p class="about__text">Verujem da pravi profesionalac nikada ne prestaje da uči. Svoje znanje neprekidno nadograđujem kroz seminare, masterclass obuke i rad sa vrhunskim imenima šminkerske industrije.</p>
+                    <p class="about__text">Svoje umeće usavršavala sam i kod <strong>Bojana Vukadinova</strong> — šminkera čija preciznost, estetika i posvećenost detalju postavljaju najviše standarde u ovom poslu. Znanje stečeno na njegovim obukama direktno prenosim na svoje klijentkinje i polaznice.</p>
+                </div>
+
+                <div class="about__image about__image--right reveal">
+                    <div class="about__image-wrap">
+                        <img src="./images/bojana.jpg" alt="Suzana sa Bojanom Vukadinovim">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Statistika -->
+            <div class="stats reveal">
+                <div class="stat">
+                    <span class="stat__num">500+</span>
+                    <span class="stat__label">Klijenata</span>
+                </div>
+                <div class="stat">
+                    <span class="stat__num">5+</span>
+                    <span class="stat__label">Godina rada</span>
+                </div>
+                <div class="stat">
+                    <span class="stat__num">100%</span>
+                    <span class="stat__label">Garancija</span>
                 </div>
             </div>
         </div>
@@ -1612,12 +1677,18 @@
                 </div>
 
                 <div class="academy__visuals reveal">
-                    <div class="academy__visual academy__visual--main">
-                        <img src="./images/academy-learning.jpg" alt="The Learning Process">
+                    <div class="academy__visual">
+                        <img src="./images/academy-learning.jpg" alt="Proces učenja na obuci">
                         <span class="academy__visual-label">The Learning Process</span>
                     </div>
-                    <div class="academy__visual academy__visual--accent">
-                        <img src="./images/academy-certified.jpg" alt="Certified Students">
+                    <div class="academy__visual">
+                        <img src="./images/academy-03.jpg" alt="Suzana — vizažista i edukator">
+                    </div>
+                    <div class="academy__visual">
+                        <img src="./images/academy-04.jpg" alt="Rad sa polaznicama tokom obuke">
+                    </div>
+                    <div class="academy__visual">
+                        <img src="./images/academy-certified.jpg" alt="Polaznice sa sertifikatima">
                         <span class="academy__visual-label">Certified Students</span>
                     </div>
                 </div>
@@ -1631,7 +1702,7 @@
             <div class="section-header reveal">
                 <div class="section-header__eyebrow">Portfolio</div>
                 <h2 class="section-header__title">Galerija</h2>
-                <p class="section-header__subtitle">Izbor radova iz protekle sezone — mladenke, večernji glam izgledi i radovi mojih polaznica nastali tokom edukacija.</p>
+                <p class="section-header__subtitle">Izbor radova iz protekle sezone — mlade, večernji glam izgledi i radovi mojih polaznica nastali tokom edukacija.</p>
             </div>
 
             <div class="gallery__grid reveal">
@@ -1647,7 +1718,7 @@
                 <div class="gallery__item">
                     <img src="./images/gallery-03.jpg" alt="Bold red lips">
                 </div>
-                <!-- Row 1 right: TALL — mladenka sa buketom (g09) -->
+                <!-- Row 1 right: TALL — mlada sa buketom (g09) -->
                 <div class="gallery__item gallery__item--tall">
                     <img src="./images/gallery-04-tall.jpg" alt="Svadbena šminka">
                 </div>
@@ -1668,7 +1739,7 @@
                 <div class="gallery__item">
                     <img src="./images/gallery-09.jpg" alt="Glowing skin look">
                 </div>
-                <!-- Row 4 left: WIDE — mladenka kod oltara (g10) -->
+                <!-- Row 4 left: WIDE — mlada kod oltara (g10) -->
                 <div class="gallery__item gallery__item--wide">
                     <img src="./images/gallery-10-wide.jpg" alt="Svadbena lokacija">
                 </div>
@@ -1678,6 +1749,16 @@
                 </div>
                 <div class="gallery__item">
                     <img src="./images/gallery-12.jpg" alt="Soft pink glam">
+                </div>
+                <!-- Novi radovi -->
+                <div class="gallery__item">
+                    <img src="./images/gallery-13.jpg" alt="Smokey glam sa nude usnama">
+                </div>
+                <div class="gallery__item">
+                    <img src="./images/gallery-14.jpg" alt="Glam šminka sa roze tonovima">
+                </div>
+                <div class="gallery__item">
+                    <img src="./images/gallery-15.jpg" alt="Glam izgled sa crvenim karminom">
                 </div>
             </div>
         </div>
@@ -1689,7 +1770,7 @@
             <div class="section-header reveal">
                 <div class="section-header__eyebrow">Reči koje greju</div>
                 <h2 class="section-header__title">Utisci klijenata</h2>
-                <p class="section-header__subtitle">Iskreni utisci mladenki, polaznica i klijentkinja koje su mi ukazale poverenje.</p>
+                <p class="section-header__subtitle">Iskreni utisci mlada, polaznica i klijentkinja koje su mi ukazale poverenje.</p>
             </div>
 
             <div class="testimonials__grid">
@@ -1698,7 +1779,7 @@
                     <p class="testimonial__text">„Suzana je napravila pravo čudo za moj venčani dan. Šminka je izgledala besprekorno od jutra do duboko u noć — fotografije su govorile za sebe. Najbitnije: osećala sam se kao ja, samo blistavija."</p>
                     <div class="testimonial__author">
                         <div>
-                            <div class="testimonial__author-name">Mladenka</div>
+                            <div class="testimonial__author-name">Mlada</div>
                             <div class="testimonial__author-role">Svadbena šminka, 2024</div>
                         </div>
                     </div>
