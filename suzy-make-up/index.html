@@ -1910,7 +1910,11 @@
                 }
             });
         }, {
-            threshold: 0.12,
+            /* threshold 0: pokreni čim element samo zakorači u vidno polje.
+               (Raniji prag 0.12 se nije dostizao kod visokih elemenata poput
+               galerije na mobilnom — 12% visine je premašivalo visinu ekrana,
+               pa su slike ostajale nevidljive.) */
+            threshold: 0,
             rootMargin: '0px 0px -50px 0px'
         });
 
